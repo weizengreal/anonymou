@@ -1,0 +1,90 @@
+body {
+    font-family: "Microsoft YaHei" !important
+}
+
+body, html {
+    overflow-x: hidden;
+}
+
+#sliderHandler {
+    width: 15px;
+    height: 15px;
+    margin-top: -8px;
+}
+
+input[id='comment_box'] {
+    border: 1px solid #dcdcdc;
+    box-sizing: border-box;
+    width: 90%;
+    line-height: 22px;
+    height: 38px;
+    padding: 7px 5px;
+    resize: none;
+    font-size: 15px;
+    border-radius: 5px;
+    position: relative;
+    left: 5%;
+    -webkit-appearance: none;
+}
+
+.reply-count {
+    font-size: 14px;
+    padding-left: 5%;
+}
+
+#comment_cancel_box {
+    float: right;
+    position: relative;
+    right: 18%;
+    font-size: 14px;
+}
+
+#comment_submit_box {
+    float: right;
+    position: relative;
+    left: 2%;
+    font-size: 14px;
+}
+
+.comment_cancel {
+    display: none;
+    position: relative;
+    top: 2px;
+}
+
+.comment_submit {
+    display: none;
+    position: relative;
+    top: 2px;
+}
+
+#toGrade {
+    padding-bottom: 10px;
+}
+
+#gradeBox {
+    float: right;
+    padding-right: 5%;
+    font-size: 14px;
+    color: #1aad19;
+}
+
+#grade {
+    padding-top: 5%;
+    padding-bottom: 10%;
+}
+
+.correct {
+    float: right;
+    font-size: 12px;
+    line-height: 30px;
+    color: #1aad19;
+}
+
+.correctclass, .correctcontact {
+    outline: none;
+    font-family: "Microsoft YaHei";
+    -webkit-appearance: none;
+    border: solid 1px #9e9e9e;
+    height: 21px;
+}

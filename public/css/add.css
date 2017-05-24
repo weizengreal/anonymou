@@ -1,0 +1,94 @@
+html, body {
+    overflow-x: hidden;
+    font-family: "Microsoft YaHei" !important;
+}
+
+/*#staffName, #staffCollege, #staffMajor, #staffLevel, #staffContact, #staffLessons {*/
+    /*color: #000;*/
+    /*font-size: 16px;*/
+/*}*/
+
+/*#nameInput, #collegeInput, #majorInput, #levelInput, #contactInput, #lessonsInput {*/
+    /*font-size: 15px;*/
+    /*font-family: 'Microsoft YaHei'*/
+/*}*/
+
+#container {
+    height:auto;
+    width:auto;
+}
+
+.titleSty {
+    color: #000;
+    font-size: 16px;
+}
+
+.inputSty {
+    font-size: 15px;
+    font-family: 'Microsoft YaHei'
+}
+
+#lessonsInput {
+    float: right;
+}
+
+#newcourse {
+    margin-top: 0px;
+    border-top: none;
+}
+
+#newcourse:before {
+    border-top: none;
+}
+
+.weui-cell:before {
+    left: 0px !important;
+}
+
+.weui-cell__bd img {
+    right: 15px;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+}
+
+.close_icon:before {
+    content: "\EA0D";
+    display: inline-block;
+    margin-left: .2em;
+    margin-right: .2em;
+}
+
+.close_icon {
+    right: 15px;
+    position: absolute;
+    font-size: 23px;
+    color: #bdbdbd;
+    display: inline-block;
+    vertical-align: middle;
+    font: normal normal normal 14px/1 "weui";
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.teaImg {
+    width: auto;
+    height: auto;
+}
+
+.teaImg p {
+    text-align: center;
+}
+
+.teaImgCenter {
+    width: 100px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.teaImgCenter img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}

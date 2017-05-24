@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a1cec5ca-4b84-4f76-b7ef-10f24f5c2c0e" name="115.159.225.216" url="http://notice.woai662.net">
+        <fileTransfer host="115.159.225.216" port="22" rootFolder="/home/wwwroot/notice.ancai4399.com" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="60000" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

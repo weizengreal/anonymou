@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>新增教师</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/weui.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/jquery-weui.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/main.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/add.css">
+    <script src="//weixiao.qq.com/js/MTAH5/stats.js" id="WXH5" sid="500439359"></script>
+</head>
+<body>
+<div id="container">
+    <div class="weui-cells__title titleSty">教师姓名</div>
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <input class="weui-input inputSty" id="nameInput" type="text" placeholder="教师姓名">
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-cells__title titleSty">教师课程</div>
+    <div class="weui-cells" id="append">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <input class="weui-input inputSty teacherLesson" type="text" placeholder="教师代表课程之一">
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-cells__title titleSty">详细信息</div>
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__bd">
+                <textarea class="weui-textarea inputSty" id="detail" placeholder="经济学专业副教授；老师课程很好过、速来速来；老师位列黑名单榜首，骚年三思啊！" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="weui-cells__title" onclick="addcourse()">添加更多课程</div>
+    <br>
+    <div class="teaImg">
+        <div class="teaImgCenter">
+            <img src="__TEAIMG__/{$headrand}.png" data-headimg="{$headrand}" id="teaheadimg">
+        </div>
+        {if condition="$upImg == '1'"}<p>点击图片为教师上传头像</p>{else /}<p>点击图片为教师更换头像</p>{/if}
+    </div>
+    <input id="picUploader" type="file" style="display: none" accept="image/*" multiple="multiple" >
+
+    <div class="weui-msg__opr-area">
+        <p class="weui-btn-area">
+            <a href="javascript:0;" id="submit" class="weui-btn weui-btn_primary">提交审核</a>
+        </p>
+    </div>
+</div>
+
+
+
+
+</body>
+<script src="__JS__/jquery-2.2.4.js"></script>
+<script src="__JS__/jquery-weui.js"></script>
+<script src="__JS__/main.js"></script>
+<script type="text/javascript">
+    var input = '<div class="weui-cell"><div class="weui-cell__bd"><i class="close_icon"></i><input class="weui-input inputSty teacherLesson" type="text" placeholder="教师代表课程之一"></div></div>',
+        upImg='{$upImg}',upToken='',imgDomain='http://wxeva.woai662.net/';
+
+
+    $(function () {
+        init();
+        $("#append").on("click",".close_icon",function () {
+            $(this).parent().parent().remove();
+        });
+
+        $("#submit").click(function () {
+            var nameInput,detailInput,lessonInput="",item;
+            $(".teacherLesson").each(function () {
+                item = $.trim($(this).val());
+                if(item != "") {
+                    lessonInput=lessonInput+item+"|";
+                }
+            });
+            nameInput = $.trim($("#nameInput").val()) ;
+            detailInput = $.trim($("#detail").val()) ;
+            if( nameInput == ""  || detailInput == "" || lessonInput == "" ) {
+                $.alert("骚年（仙女）基本信息都是必填项哦",'温馨提示');
+            }
+            else {
+                $.ajax({
+                    url : "{$addTeacher}",
+                    type : "POST",
+                    data : {
+                        nameInput : nameInput,
+                        detailInput : detailInput,
+                        lessonInput : lessonInput,
+                        teaimg:$("#teaheadimg").data('headimg')
+                    },
+                    dataType : "JSON",
+                    success : function (data) {
+                        if(data.status == "1") {
+                            location.href=data.url;
+                        }
+                        else {
+                            $.alert(data.info);
+                        }
+//                    console.log(data);
+                    },
+                    error : function (e) {
+                        alert("内部错误，网络不稳定");
+                    }
+                })
+            }
+        });
+
+        $("#teaheadimg").click(function () {
+            if(upImg == '2') {
+                $("#teaheadimg").attr('src','__TEAIMG__/'+Math.floor(Math.random()*19+1)+'.png');
+                $("#teaheadimg").data('headimg',parseInt(19*Math.random()));
+            }
+            else {
+                $('#picUploader').click();
+            }
+        });
+
+        $('#picUploader').change(function (e) {
+            console.log(e);
+            var formData = new FormData();
+            formData.append('token', upToken);
+            formData.append('file', e.target.files[0]);
+            $.ajax({
+                type: 'POST',
+                url: 'http://upload.qiniu.com',
+                data: formData,
+                processData: false,
+                contentType: false , // 这儿设不好让浏览器帮你做就行了
+                success : function (e) {
+                    $("#teaheadimg").attr('src',imgDomain+e.key+'?imageView2/1/w/270/h/270');
+                    $("#teaheadimg").data('headimg',e.key);
+                },
+                error : function (error) {
+                    $.alert('骚年（仙女），遇到了一点未知错误，请刷新网页！','温馨提示')
+                }
+            })
+        });
+    });
+
+    function addcourse() {
+        $("#append").append(input);
+    }
+
+
+    function init() {
+        if(upImg == '1') {
+            $.get('https://api.aufe.vip/common/getEvaQnToken',function (response) {
+                var data = JSON.parse(response);
+                upToken = data.uptoken;
+            })
+        }
+    }
+
+
+
+</script>
+</html>

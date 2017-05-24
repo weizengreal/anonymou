@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{$title}</title>
+    <link href="__CSS__/weui.css" rel="stylesheet">
+    <link href="__CSS__/example.css" rel="stylesheet">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"> </script>
+</head>
+<body>
+<div class="page js_show">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">{$title}</h2>
+            <p class="weui-msg__desc">{$content}</p>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+                <a href="javascript: ('{$redirectUri}'.length < 10) ? wx.closeWindow() : location.href='{$redirectUri}'; " class="weui-btn weui-btn_primary">{$buttonCot}</a>
+            </p>
+        </div>
+        <!--<div class="weui-msg__extra-area">-->
+            <!--<div class="weui-footer">-->
+                <!--<p class="weui-footer__text">&copy;SA团队</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
+
+</body>
+</html>

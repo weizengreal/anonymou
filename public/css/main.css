@@ -1,0 +1,220 @@
+/*index-user*/
+/*new-user*/
+/*detail-user*/
+.headtitle {
+    height: 20px;
+    width: 100%;
+    background-color: white;
+}
+
+.blank {
+    padding-left: 30px;
+}
+
+#main-panel__bd {
+    padding: 2px;
+}
+
+#h4style {
+    font-size: 16px;
+}
+
+#h4stylep {
+    font-size: 14px;
+}
+
+#main-panel_access {
+}
+
+.again {
+    padding-left: 30px;
+}
+
+.blankagain {
+    padding-left: 30px;
+    font-size: 20px;
+}
+
+.titlelist {
+    font-size: 18px;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+.titlelist span {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.whole {
+    padding-top: 10px;
+    padding-bottom: 13px;
+    padding-left: 22px;
+}
+
+.context {
+    font-size: 15px;
+}
+
+.score, .response, .pass {
+    padding-left: 25px;
+    font-size: 15px;
+    line-height: 35px;
+}
+
+#main-cells {
+    width: 90%;
+    margin: 0 auto;
+    border: solid #8e8e8e 1px;
+    border-radius: 8px;
+}
+
+#main-cell {
+    height: 10px;
+}
+
+#main-cells__title {
+    font-size: 15px;
+    padding-left: 5%;
+}
+
+.submitcomm {
+    height: 30px;
+    width: 40px;
+    border-radius: 5px;
+    color: #a9a9a9;
+    border: none;
+    font-size: 15px;
+    background-color: #fff;
+    outline: none;
+}
+
+#main-input {
+    font-size: 15px;
+}
+
+#slider1, #slider2, #slider3 {
+    width: 60%;
+    position: absolute;
+    right: 20px;
+}
+
+#main-cell_bd {
+    line-height: 15px;
+}
+
+.middle {
+    padding-top: 5%;
+    padding-bottom: 6%;
+}
+
+.word {
+    width: 30%;
+    height: 5px;
+    float: left;
+    list-style-type: none;
+    border-top: solid 1px #c9c9c9;
+}
+
+.wordmid {
+    width: 30%;
+    float: left;
+    list-style-type: none;
+    position: relative;
+    bottom: 10px;
+    text-align: center;
+}
+
+.line {
+    margin-bottom: 30px;
+}
+
+#addword {
+    margin-bottom: 40px;
+}
+
+.face {
+    width: 40px;
+    height: 40px;
+    background-size: 40px 40px;
+    margin-left: 20%;
+    border-radius: 20px;
+}
+
+#equipmentType {
+    width: 100%;
+    height: 40px;
+    font-family: 'Microsoft YaHei';
+    font-size: 16px;
+    border: solid 1px #c9c9c9;
+    border-left: none;
+    border-right: none;
+    padding-left: 10px;
+    outline: none;
+}
+
+.newclass {
+    position: relative;
+    width: 200px;
+}
+
+.icon1 {
+    position: absolute;
+    right: 4%;
+    left: 0 ;
+    z-index: 5;
+    background-image: url("../images/song.png");
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    margin-top: 12px;
+}
+
+.required {
+    color: #404040;
+}
+
+#main-cells__title {
+    font-size: 16px;
+    color: #000;
+}
+
+#main-textarea {
+    font-family: 'Microsoft YaHei';
+    font-size: 14px;
+}
+
+a {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+}
+.favicon{
+    width: 42px;
+    height: 42px;
+    float: left;
+    border-radius: 50%;
+    //background-image: url("../images/song.png");
+    margin-top: 2px;
+}
+.programe{
+    border: 1px solid green;
+    border-radius: 15px;
+    font-size: 12px;
+    margin-left: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: green;
+    line-height: 15px;
+    height: 16px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+.introduce{
+    padding-left:0em;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>应用配置</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/conf_test.css?v={:rand(1,100000)}">
+
+</head>
+<body>
+<div class="wx-menu">
+    <ul>
+        <li><a data-type=1 href="javascript:void(0);" class="menu active">新增审核</a></li>
+        <li><a data-type=2 href="javascript:void(0);" class="menu">查询修改</a></li>
+        <li><a data-type=3 href="javascript:void(0);" class="menu">应用配置</a></li>
+    </ul>
+</div>
+<div class="app">
+    <div class="audit">
+        <table class="table table-hover table-bordered center">
+            <thead>
+                <tr>
+                    <th width="8%" style="text-align: center;">姓名</th>
+                    <th width="20%" style="text-align: center;">课程</th>
+                    <th max-width="54%" style="text-align: center;">详细</th>
+                    <th width="16%" colspan="2" style="text-align: center;">审核</th>
+                    <th width="5%" style="text-align: center;">更多</th>
+                </tr>
+            </thead>
+            <tbody id="teaBody">
+                <!--<tr>-->
+                    <!--<td>王五</td>-->
+                    <!--<td>会计学</td>-->
+                    <!--<td><p class="detail">老师人超级好，快来快来老师人超级好，快来快来老师人超级好，快来快来老师人超级好，快来快来老师人超级好，快来快来老师人超级好，快来快来老师人超级好，快来快来老师人超级好，快来快来</p></td>-->
+                    <!--<td><a class="pass" data-tid=1>通过</a></td>-->
+                    <!--<td><a class="watchMore" data-index=0 data-tid=1 data-name="王五" data-lessons="会计学" data-detail="老师人超级好，快来快来">查看</a></td>-->
+                    <!--<td><a class="drop">不予通过</a></td>-->
+                <!--</tr>-->
+            </tbody>
+        </table>
+
+        <nav aria-label="...">
+            <ul class="pager">
+                <li><a href="javascript:;" style="margin-right: 10px;" id="pre">向前</a></li>
+                <li><a href="javascript:;" id="next">向后</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="change" style="display: none;">
+
+
+        <div class="wx-form-group" style="float: left;">
+            <div class="wx-form-content">
+                <div>
+                    <input type="text" class="wx-form-input" placeholder="请输入教师姓名" id="search" name="test_media">
+                </div>
+            </div>
+        </div>
+        <div class="wx-form-group" style="float: left;left: 10px;">
+            <button type="submit" class="wx-btn wx-btn-small" onclick="search($('#search').val(),1)">搜索</button>
+            <button type="submit" class="wx-btn-gray wx-btn-small" onclick="$('#search').val('');">清空</button>
+        </div>
+
+        <table class="table table-hover table-bordered" id="teaChangeTable">
+            <thead>
+            <tr>
+                <th width="8%" style="text-align: center;">姓名</th>
+                <th width="20%" style="text-align: center;">课程</th>
+                <th max-width="54%" style="text-align: center;">详细</th>
+                <th width="16%" colspan="2" style="text-align: center;">审核</th>
+                <th width="5%" style="text-align: center;">更多</th>
+            </tr>
+            </thead>
+            <tbody id="teaChange">
+            </tbody>
+        </table>
+
+        <div class="page">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {for start='0' end='$end'}
+                    <li><a class="nowPage" href="#">{$i+1}</a></li>
+                    {/for}
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+    <div class="configure" style="display: none;">
+
+        <div class="wx-form-group">
+            <label for="10" class="wx-control-label">
+                选择当前模式：
+            </label>
+            <div class="wx-form-content">
+                <label class="wx-radio-content mgr-10">
+                    <input type="radio" class="wx-radio model" value="1" {eq name='check' value='1'}checked="checked" {/eq} name="model">
+                    <div class="wx-radio-style"></div>审核模式(default)
+                </label>
+                <label class="wx-radio-content mgr-10">
+                    <input type="radio" class="wx-radio model" value="2" {eq name='check' value='2'}checked="checked" {/eq}  name="model">
+                    <div class="wx-radio-style"></div>自由模式
+                </label>
+            </div>
+        </div>
+
+
+        <div class="wx-form-group">
+            <label for="10" class="wx-control-label">
+                上传教师头像：
+            </label>
+            <div class="wx-form-content">
+                <label class="wx-radio-content mgr-10">
+                    <input type="radio" class="wx-radio upImg" value="1" {eq name='upImg' value='1'}checked="checked" {/eq} name="upImg">
+                    <div class="wx-radio-style"></div>允许
+                </label>
+                <label class="wx-radio-content mgr-10">
+                    <input type="radio" class="wx-radio upImg" value="2" {eq name='upImg' value='2'}checked="checked" {/eq}  name="upImg">
+                    <div class="wx-radio-style"></div>不允许(default)
+                </label>
+            </div>
+        </div>
+
+        <div class="wx-form-group"  style="margin-left: 25px">
+            <a href="https://notice.woai662.net/anonymou/sample.xls">请先下载示例excel文件</a>
+            <br>
+            <span id="uploadName"></span>
+        </div>
+
+
+        <form action="{$upload}" enctype="multipart/form-data" method="post" id="uploadExcelForm">
+            <input type="file" name="excel" style="display: none;" id="upExcel" accept=".xls">
+        </form>
+
+        <div class="wx-form-group" style="float: right;margin-right: 30px;">
+            <button type="submit" class="wx-btn-gray wx-btn-small" id="excelButton">excel导入</button>
+            <button type="submit" class="wx-btn wx-btn-small" id="configure">确认</button>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="moreInfo" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="teaname">填写教师姓名</h4>
+            </div>
+            <div class="modal-body">
+                <h4>课程信息：</h4>
+                <p id="lessons"></p>
+                <h4>教师详细：</h4>
+                <p id="detail"></p>
+                <h4>教师头像：</h4>
+                <div id="teaimg">
+                    <img src="" style="border-radius: 50%;width: 60px;height: 60px;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="determine" >通过审核</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="__JS__/public.js"></script>
+<script src="__JS__/jquery-2.2.4.js"></script>
+<script src="__JS__/jquery.form.js"></script>
+<script src="__JS__/bootstrap.min.js"></script>
+<script type="text/html" id="teaItem">
+    <tr class="teaItem" index={0}>
+        <td>{1}</td>
+        <td><p class="detail">{2}</p></td>
+        <td><p class="detail">{3}</p></td>
+        <td><a class="pass" data-index={0} data-tid={4}>点我通过</a></td>
+        <td><a class="drop" data-index={0} data-tid={4}>不予通过</a></td>
+        <td><a class="watchMore" data-index={0} data-tid={4} data-name="{1}" data-lessons="{2}" data-detail="{3}" data-teaimg="{5}">查看</a></td>
+    </tr>
+</script>
+
+<script type="text/html" id="searchTeaItem">
+    <tr class="teaItem" index={0}>
+        <td>{1}</td>
+        <td><p class="detail">{2}</p></td>
+        <td><p class="detail">{3}</p></td>
+        <td><a class="pass" data-index={0} data-tid={4}>{5}</a></td>
+        <td><a class="drop" data-index={0} data-tid={4}>{6}</a></td>
+        <td><a class="watchMore" data-index={0} data-tid={4} data-name="{1}" data-lessons="{2}" data-detail="{3}" data-teaimg="{7}">查看</a></td>
+    </tr>
+</script>
+
+<script>
+    var page = 1,pageSign=-1,setPass="{$setPass}",setUnPass="{$setUnPass}",imgDomain='http://wxeva.woai662.net/',
+        getDataUrl="{$getData}",searchTea="{$searchTea}",changeTeaStu="{$changeTeaStu}";
+</script>
+<script src="__JS__/config_test.js?v={:rand(1,200000)}"></script>
+</html>

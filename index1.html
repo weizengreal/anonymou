@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试系统Jssdk</title>
+</head>
+<body>
+你好，我是微信分享的share的测试页面页面
+</body>
+<script src="./public/js/jquery-2.2.4.js"></script>
+<script src="./public/js/jweixin-1.2.0.js"></script>
+<script>
+    var share = "https://api.aufe.vip/jssdk/axcShare",title="匿名评教",desc="匿名评教",
+        link="http://www.baidu.com",imgUrl="http://notice.woai662.net/anonymou/public/image/share.png";
+    $.post(share, { url: encodeURIComponent(location.href.split('#')[0]) }, function (data) {
+        var date = JSON.parse(data);
+        wx.config({
+            debug: true,
+            appId: date.appId,
+            timestamp: date.timestamp,
+            nonceStr: date.nonceStr,
+            signature: date.signature,
+            jsApiList: [
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone'
+            ]
+        });
+    });
+
+    wx.ready(function () {
+
+        wx.onMenuShareTimeline({
+            title: title, // 分享标题
+            link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: imgUrl, // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+                alert("分享到朋友圈成功");
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+                alert("取消分享到朋友圈");
+            }
+        });
+
+        wx.onMenuShareAppMessage({
+            title: title, // 分享标题
+            desc: desc, // 分享描述
+            link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: imgUrl, // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+                alert("分享成功");
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+                alert("取消分享");
+            }
+        });
+
+
+        wx.onMenuShareQQ({
+            title: title, // 分享标题
+            desc: desc, // 分享描述
+            link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: imgUrl, // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+
+
+        wx.onMenuShareWeibo({
+            title: title, // 分享标题
+            desc: desc, // 分享描述
+            link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: imgUrl, // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+
+
+        wx.onMenuShareQZone({
+            title: title, // 分享标题
+            desc: desc, // 分享描述
+            link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: imgUrl, // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+            }
+        });
+
+        // wx.hideAllNonBaseMenuItem();
+
+    });
+</script>
+</html>

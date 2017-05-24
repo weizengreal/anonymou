@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="pixel-ratio-3 retina android android-5 android-5-0">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>{$schoolName}</title>
+    <!-- 引入weui文件 -->
+    <link rel="stylesheet" href="__CSS__/weui.css">
+    <!--<link rel="stylesheet" href="__CSS__/jquery-weui.css">-->
+    <link rel="stylesheet" type="text/css" href="__CSS__/main.css">
+    <link rel="stylesheet" type="text/css" href="__CSS__/index.css">
+    <!-- 主页面数据加载 -->
+    <script src="//weixiao.qq.com/js/MTAH5/stats.js" id="WXH5" sid="500439359"></script>
+</head>
+
+<body>
+<div class="weui-search-bar weui-search-bar_focusing" id="searchBar">
+    <form class="weui-search-bar__form">
+        <div class="weui-search-bar__box">
+            <i class="weui-icon-search"></i>
+            <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="输入课程名或教师名" required="" onkeyup="research(1)">
+            <a href="javascript:" class="weui-icon-clear" id="searchClear" onclick="cancel()"></a>
+        </div>
+        <label class="weui-search-bar__label" id="searchText" style="float: left">
+            <i class="weui-icon-search"></i>
+            <span style="float: left;margin-left: 10px">输入课程名或教师名</span>
+        </label>
+    </form>
+    <!--<a onclick="cancel()" class="weui-search-bar__cancel-btn" id="searchCancel">确定</a>-->
+</div>
+<!-- 显示教师数据 -->
+<div id="wrap">
+    <ul id="mainAppend">
+    </ul>
+    <ul id="searchAppend">
+    </ul>
+</div>
+<!-- 无数据时显示 -->
+<div class="init">
+    <div class="weui-panel weui-panel_access">
+        <div class="weui-panel__bd">
+            <div class="weui-media-box weui-media-box_text">
+                <h4 class="weui-media-box__title">沙发，沙发！</h4>
+                <p class="weui-media-box__desc">没有记录，还等什么呢？赶紧抢沙发吧！</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="weui-loadmore" id="fresh">
+    <i class="weui-loading"></i>
+    <span class="weui-loadmore__tips">正在加载</span>
+</div>
+<div id="icon">
+    <img src="__IMG__/add.png">
+</div>
+<script src="__JS__/public.js"></script>
+<script src="__JS__/jquery-2.2.4.js"></script>
+<script src="__JS__/jquery-weui.js"></script>
+<!--<script src="__JS__/jweixin-1.2.0.js"></script>-->
+
+
+</body>
+
+<script type="text/html" id="teacherInfo">
+    <li onclick="opendetail('{0}')" >
+        <div class="weui-panel weui-panel_access list" style="color: #8e8e8e">
+            <div class="weui-panel__bd" >
+                <a class="weui-media-box weui-media-box_appmsg" style="padding: 10px;padding-bottom: 0px;">
+                    <div class="weui-media-box__bd" style="color: #8e8e8e">
+                        <div class="favicon" >
+                            <img class="favicon" src="{6}" alt="">
+                        </div>
+                        <div style="margin-left: 55px">
+                            <p style="color: black">{1}</p>
+                            <p class="oneline" style="font-size: 10px">
+                                讲课质量分：<span style="color: #0BB20C;font-size: 16px">{3}</span>
+                                负责程度值：<span style="color: #0BB20C;font-size: 16px">{4}</span>
+                            </p>
+                        </div>
+                        <div style="margin-top: 10px">
+                            <p class="twoline" style="float: left;">详细：</p>
+                            <p class="introduce">{2}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="listDetail" onclick="">
+                <p class="listDetailP">
+                    <sapn class="listDetailRight">课程：</sapn>{5}
+                </p>
+            </div>
+        </div>
+    </li>
+</script>
+
+
+<script type="text/javascript">
+    var dataUrl = "{$getData}",searchUrl = "{$searchData}",page = 1,searchPage = 1,loading = false,loadingSea = true,
+        mainAppend=$("#mainAppend"),searchAppend=$("#searchAppend"),nowPage="main",searchType=1,isAuth="{$isAuth}",authUrl="{$authUrl}",
+        addUrl="{$add}",detail="{$url}",initVar=true,imgDomain='http://wxeva.woai662.net/';
+    init();
+        $(window).scroll(function() {
+            if((($(window).scrollTop()+$(window).height())+50)>=$(document).height()) {
+                if(loading == false && page > 0 ){
+                    cancel();//用户未输入任何字符将自动将上方的搜索状态取消掉
+                    loading = true;
+                    getData(handleData);
+                }
+                else if(loadingSea == false){
+                    loadingSea = true;
+                    research(2);
+                }
+            }
+        });
+
+    $("#icon").click(function () {
+        if(isWeixin()) {
+            if(isAuth == "1") {
+                window.location.href =  addUrl;
+            }
+            else {
+                window.location.href =  authUrl._format(addUrl);
+            }
+        }
+        else{
+            window.location.href =  addUrl;
+        }
+    });
+
+    function init() {
+        getData(handleData,mainAppend);
+    }
+
+    function research(searchType) {
+        window.searchType = searchType;
+        var serachWords = $("#searchInput").val();
+        //显然这里是不允许空格字符发送搜索的
+        if($.trim(serachWords) != "") {
+            nowPage = "search";
+            loading = true;
+            loadingSea = false;
+            document.getElementById('mainAppend').style.display = "none";
+            document.getElementById('searchAppend').style.display = "";
+            searchData(handleData,serachWords);
+        }
+        else {
+
+        }
+    }
+
+    function handleData(response,appendEle) {
+        if(response.status == "1") {
+            var data = response.data,lessons = new Array();
+            if(page == 1 &&  data.length == 0 && initVar) {
+                $(".init").css('display','block');
+                $("#fresh").css('display','none');
+                return ;
+            }
+            else {
+                initVar = false;
+            }
+            for (var index in data) {
+                var lessonStr = "";
+                lessons = JSON.parse(data[index].lessons);
+                for(var j = 0;j < 2 && j < lessons.length; ++j ) {
+                    lessonStr += '<span class="listDetailRight programe" style="margin-left: 5px;">'+lessons[j]+'</span>&nbsp;&nbsp;&nbsp;';
+                }
+                if(lessons.length >= 2) {
+                    lessonStr += '<span class="listDetailRight programe" style="margin-left: 5px;">...</span>';
+                }
+                data[index].teaimg = data[index].teaimg.length > 2 ? imgDomain + data[index].teaimg + '?imageView2/1/w/270/h/270' : '__TEAIMG__/'+data[index].teaimg+'.png';
+                var it = $("#teacherInfo").html()._format(data[index].tid,data[index].name,data[index].detail,data[index].quality,data[index].responsible,lessonStr,data[index].teaimg);
+//                    console.log(it);
+                if( window.nowPage=="search" && window.searchType == 1) {
+                    // searchType == 1 表示用户在搜索的情况下输入字符并触发相关事件，此时需要清空以前的搜索结果
+                    appendEle.html("");
+                }
+                appendEle.append(it);
+            }
+            if(data.length == 12) {
+                //数据量等于12，说明这里可以继续分页和拉取数据
+                if(nowPage == "main") {
+                    loading = false;
+                    ++page;
+                }
+                else {
+                    loadingSea = false;
+                    ++searchPage;
+                }
+                //没到底就不要到底
+                $("#fresh").html('<i class="weui-loading"></i><span class="weui-loadmore__tips">正在加载</span>');
+            }
+            else {
+                //禁用下拉刷新，并设置前端样式提示信息为到底了
+                if(nowPage == "main") {
+                    page = -1;//在搜索与主界面之间的切换中，需要记录主界面是否还能继续下拉刷新，这里使用page的值作为另一个中断条件
+                    loading = true;
+                }
+                else {
+                    loadingSea = true;
+                }
+                //到底了
+                $("#fresh").html('<span class="weui-loadmore__tips">-到底了-</span>');
+            }
+        }
+        else {
+            if(page == 1) {
+                $.alert("网络错误！","温馨提示");
+            }
+        }
+    }
+
+    function getData(fn_success) {
+        $.ajax({
+            url : dataUrl,
+            type : "POST",
+            data : { page : page },
+            dataType : "JSON",
+            success : function (data) {
+                fn_success(data,mainAppend);
+            },
+            error : function () {
+                console.log("网络错误，轻稍后再试！")
+            }
+        })
+    }
+
+    function searchData(fn_success,searchWords) {
+        $.ajax({
+            url : searchUrl,
+            type : "POST",
+            data : { page : searchPage,searchWords : searchWords },
+            dataType : "JSON",
+            success : function (data) {
+                fn_success(data,searchAppend);
+            },
+            error : function () {
+                console.log("网络错误，轻稍后再试！");
+            }
+        })
+    }
+
+    function cancel() {
+        nowPage = "main";
+        loading = false;
+        loadingSea = true;
+        document.getElementById('mainAppend').style.display = "";
+        document.getElementById('searchAppend').style.display = "none";
+    }
+
+    function opendetail(id) {
+        var url = detail+'/tid/'+id;
+        if(isWeixin()) {
+            if(isAuth == "1") {
+                window.location.href =  url;
+            }
+            else {
+                window.location.href =  authUrl._format(url);
+            }
+        }
+        else{
+            window.location.href =  url;
+        }
+    }
+
+</script>
+</html>
+
