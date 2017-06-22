@@ -17,9 +17,9 @@ return [
     // 数据库名
     'database'        => 'anonymou',
     // 用户名
-    'username'        => 'woai662',
+    'username'        => 'root',
     // 密码
-    'password'        => 'weiwei66291',
+    'password'        => 'root',
     // 端口
     'hostport'        => '',
     // 连接dsn
