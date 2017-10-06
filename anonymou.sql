@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2017-08-25 13:45:12
+-- Generation Time: 2017-10-06 12:04:34
 -- 服务器版本： 5.7.11-log
 -- PHP Version: 5.6.22
 
@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `anony_comment` (
   `openid` varchar(35) NOT NULL,
   `tid` int(15) NOT NULL,
   `cretime` int(11) NOT NULL COMMENT '创建时间',
-  `content` text NOT NULL COMMENT '评论内容'
+  `content` text NOT NULL COMMENT '评论内容',
+  `display` enum('1','2') NOT NULL DEFAULT '1' COMMENT '该评论是否显示，1：显示，2：不显示'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='评论表';
 
 -- --------------------------------------------------------

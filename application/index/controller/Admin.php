@@ -8,6 +8,7 @@
 
 
 namespace app\index\controller;
+use app\index\model\Comment;
 use think\Controller;
 use think\Db;
 use weixiao\WxAccess;
@@ -86,6 +87,8 @@ class Admin extends Controller {
      * */
     public function conf($media_id) {
         $confArr = Db::table('anony_conf')->where(['mediaid'=>$media_id])->order('name desc')->select();
+        $confArr = $this->formatConf($confArr);
+        $comment = new Comment();
         return $this->fetch("conf",[
             'mediaId'=>$media_id,
             'setPass'=>url("index/datahandle/setPass","",false),
@@ -94,9 +97,13 @@ class Admin extends Controller {
             'searchTea'=>url("index/datahandle/searchTea","",false),
             'changeTeaStu'=>url("index/datahandle/changeTeaStu","",false),
             'upload'=>url("index/datahandle/upload","",false),
-            'check'=>$confArr[0]['value'],
-            'upImg'=>empty($confArr[1]['value']) ? 2 : $confArr[1]['value'],
+            'check'=>$confArr['check'],
+            'upImg'=>empty($confArr['allowUpImg']) ? 2 : $confArr['allowUpImg'],
+            'comFilter'=>empty($confArr['comFilter']) ? 1 : $confArr['comFilter'],
             'end'=>ceil((Db::table('anony_teacher')->where(['mediaid'=>$media_id])->count())/15),
+            'comEnd'=>ceil(($comment->comGetCount($media_id)) / 15),
+            'searchCom'=>url("index/datahandle/searchComment","",false),
+            'deleteCom'=>url("index/datahandle/hideComment","",false),
         ]);
     }
 
@@ -104,9 +111,12 @@ class Admin extends Controller {
      * 应用配置页测试界面
      * */
     public function test_conf() {
-        die('please call to admin:weizeng');
+//        die('please call to admin:weizeng');
         $media_id='gh_367c5510c3ee';
+        setcookie('mediaid',$media_id,time()+1000000,'/');
         $confArr = Db::table('anony_conf')->where(['mediaid'=>$media_id])->order('name desc')->select();
+        $confArr = $this->formatConf($confArr);
+        $comment = new Comment();
         return $this->fetch("test_conf",[
             'mediaId'=>$media_id,
             'setPass'=>url("index/datahandle/setPass","",false),
@@ -115,10 +125,25 @@ class Admin extends Controller {
             'searchTea'=>url("index/datahandle/searchTea","",false),
             'changeTeaStu'=>url("index/datahandle/changeTeaStu","",false),
             'upload'=>url("index/datahandle/upload","",false),
-            'check'=>$confArr[0]['value'],
-            'upImg'=>empty($confArr[1]['value']) ? 2 : $confArr[1]['value'],
+            'check'=>$confArr['check'],
+            'upImg'=>empty($confArr['allowUpImg']) ? 2 : $confArr['allowUpImg'],
+            'comFilter'=>empty($confArr['comFilter']) ? 1 : $confArr['comFilter'],
             'end'=>ceil((Db::table('anony_teacher')->where(['mediaid'=>$media_id])->count())/15),
+            'comEnd'=>ceil(($comment->comGetCount($media_id)) / 15),
+            'searchCom'=>url("index/datahandle/searchComment","",false),
+            'deleteCom'=>url("index/datahandle/hideComment","",false),
         ]);
+    }
+
+    /*
+     * 格式化DB中配置内容到二维数组
+     * */
+    private function formatConf($confArr) {
+        $result = [];
+        foreach ($confArr as $item) {
+            $result[$item['name']] = $item['value'];
+        }
+        return $result;
     }
 
     /*

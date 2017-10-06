@@ -9,6 +9,7 @@
 namespace app\index\controller;
 
 use app\index\logic\Userhandle;
+use app\index\model\Comment;
 use think\Controller;
 use think\Request;
 use think\Db;
@@ -393,6 +394,102 @@ class Datahandle extends Controller
             ];
         }
 
+    }
+
+    /*
+     * 获取某一个公众号下的评论内容
+     * */
+//    public function getComment() {
+//        if(empty($_COOKIE['mediaid'])) {
+//            return [
+//                'stauts'=>-2,
+//                'info'=>'权限超时，请刷新界面'
+//            ];
+//        }
+//        $mediaid = $_COOKIE['mediaid'];
+//        $comment = new Comment();
+//        $page = Request::instance()->post('page',0);
+//        return [
+//            'status'=>1,
+//            'data' => $comment->comByMed($mediaid,$page)
+//        ];
+//    }
+
+    /*
+     * 搜索某个关键字的评论
+     * */
+    public function searchComment() {
+        if(empty($_COOKIE['mediaid'])) {
+            return [
+                'stauts'=>-2,
+                'info'=>'权限超时，请刷新界面'
+            ];
+        }
+        $mediaid = $_COOKIE['mediaid'];
+        $comment = new Comment();
+        $searchKey = Request::instance()->post('searchWords');
+        $page = Request::instance()->post('page',0);
+        $whereOpt = 'anony_comment.display = 1 ';
+        if(empty($searchKey)) {
+            $res = $comment->comForSea($mediaid,$whereOpt,$page);
+            foreach ($res as $index => $item) {
+                $res[$index]['lessons']=json_decode($res[$index]['lessons'],true);
+                $res[$index]['cretime']=date('Y-m-d G:i:s',$res[$index]['cretime']);
+            }
+            return [
+                'status'=> 1,
+                'data' => $res
+            ];
+        }
+        else {
+            $whereOpt .= ' and ';
+            $seaArr =['anony_comment.content','anony_teacher.name','anony_teacher.lessons'];
+            $creTime = strtotime($searchKey);
+            if($creTime === false) {
+                foreach ($seaArr as $item) {
+                    $whereOpt .= $item." like %'$searchKey'% or ";
+                }
+                $whereOpt = substr($whereOpt,0,strlen($whereOpt) - 3);
+            }
+            else {
+                $whereOpt .= 'anony_comment.cretime >= '.$creTime;
+            }
+            $res = $comment->comForSea($mediaid,$whereOpt,$page);
+            foreach ($res as $index => $item) {
+                $res[$index]['lessons']=json_decode($res[$index]['lessons'],true);
+                $res[$index]['cretime']=date('Y-m-d G:i:s',$res[$index]['cretime']);
+            }
+            return [
+                'status' => 1,
+                'data' => $res
+            ];
+        }
+    }
+
+    /*
+     * 隐藏某一条评论
+     * */
+    public function hideComment() {
+        if(empty($_COOKIE['mediaid'])) {
+            return [
+                'stauts'=>-2,
+                'info'=>'权限超时，请刷新界面'
+            ];
+        }
+        $comment = new Comment();
+        $commentId = Request::instance()->post('commentId',false);
+        if($commentId === false) {
+            return [
+                'status'=> -1,
+                'info' => '缺少必要参数'
+            ];
+        }
+        else {
+            return [
+                'status'=>$comment->hideOneComment($commentId) ? 1 : 2,
+                'info' => 'inner error'
+            ];
+        }
     }
 
 

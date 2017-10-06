@@ -6,7 +6,9 @@ $(function () {
     $(".menu").click(function () {
         $(".audit").css("display","none");
         $(".change").css("display","none");
+        $(".comment").css("display","none");
         $(".configure").css("display","none");
+
         $("ul li a").attr("class","");
         $(this).attr('class','active');
         switch ($(this).data("type")) {
@@ -19,6 +21,10 @@ $(function () {
                 break;
             }
             case 3: {
+                $(".comment").css("display","");
+                break;
+            }
+            case 4: {
                 $(".configure").css("display","");
                 break;
             }
@@ -133,7 +139,25 @@ $(function () {
                 $('#uploadName').html(fileDetail[fileDetail.length-1]+'自动导入出现错误，错误信息：'+e.info);
             }
         })
-    })
+    });
+
+    // 删除评论
+    $(".app").on('click','.com_drop',function () {
+        if(confirm('你确定要删除这条评论吗？')) {
+            var commentId = $(this).data('commentid');
+            deleteCom(commentId,function (isok) {
+                if(isok) {
+                    deleteComEle(commentId);
+                    alert('成功删除该评论');
+                }
+            })
+        }
+    });
+
+    // 评论搜索界面的分页
+    $(".comNowPage").click(function () {
+        searchCom($('#searchCom').val(),$(this).html());
+    });
 });
 
 /*
@@ -142,6 +166,7 @@ $(function () {
 function init() {
     getData(page,handle);
     search('',1);
+    searchCom('',comPage);
 }
 
 /*
@@ -224,6 +249,13 @@ function deleteEle(index) {
 }
 
 /*
+ * 评论部分：审核完成之后删除当前element元素
+ * */
+function deleteComEle(index) {
+    $(".comItem[index = "+index+"]").remove();
+}
+
+/*
 * 查询函数
 * */
 function search(searchWord,seaPage) {
@@ -254,6 +286,56 @@ function search(searchWord,seaPage) {
         },
         error : function () {
             alert('网络错误，请刷新或者稍后再试！');
+        }
+    })
+}
+
+
+/*
+* 查询评论
+* */
+function searchCom(searchWord,seaPage) {
+    var teaItem = $("#commentItem").html(),teaBody=$('#comBody');
+    teaBody.html("");// 清空该部分并重新渲染
+    $.ajax({
+        url : searchComUrl,
+        type : "POST",
+        data:{searchWords : searchWord,page : seaPage},
+        dataType : "JSON",
+        success : function (response) {
+            if(response.status == 1) {
+                console.log(response.data);
+                var data = response.data;
+                for( var index in data) {
+                    var lessons = "";
+                    for(var j in data[index].lessons) {
+                        j==data[index].lessons.length-1 ? lessons+=data[index].lessons[j] : lessons+=data[index].lessons[j]+" | ";
+                    }
+                    teaBody.append(teaItem._format(data[index].name,lessons,data[index].content,data[index].cretime,data[index].cid));
+                    // console.log(data[index].show == 1);
+                }
+            }
+            else {
+                alert("网络错误，请刷新后重试！");
+            }
+        },
+        error : function () {
+            alert('网络错误，请刷新或者稍后再试！');
+        }
+    })
+}
+
+/*
+* 删除一条评论
+* */
+function deleteCom(comid,fn_success) {
+    $.post(deleteComUrl,{commentId : comid},function (data) {
+        // console.log(data);
+        if(data.status == 1) {
+            fn_success(true);
+        }
+        else {
+            alert(data.info);
         }
     })
 }
