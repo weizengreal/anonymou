@@ -111,7 +111,7 @@ class Admin extends Controller {
      * 应用配置页测试界面
      * */
     public function test_conf() {
-//        die('please call to admin:weizeng');
+        die('please call to admin:weizeng');
         $media_id='gh_367c5510c3ee';
         setcookie('mediaid',$media_id,time()+1000000,'/');
         $confArr = Db::table('anony_conf')->where(['mediaid'=>$media_id])->order('name desc')->select();
