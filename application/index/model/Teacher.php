@@ -66,11 +66,19 @@ class Teacher extends Model {
      * 传入参数start、limit
      * */
     public function getTeaData($start,$mediaid,$limit = 12) {
-        return $this->field("id,name,detail,lessons,quality,responsible,headimg as teaimg")->where("`show` = '1' and `mediaid`='$mediaid'")->order("`comcount` desc")->limit($start,$limit)->select();
+        return $this
+            ->field("id,name,detail,lessons,quality,responsible,headimg as teaimg")
+            ->where("`show` = '1' and `mediaid`='$mediaid'")
+            ->order("`comcount` desc")
+            ->limit($start,$limit)
+            ->select();
     }
 
     public function getSeaData($start,$searchWords,$mediaid,$limit = 12) {
-        return $this->field("id,name,detail,lessons,quality,responsible,headimg as teaimg")->where("`show` = '1' and `mediaid`='$mediaid' and (`name` like '%$searchWords%' or `lessons` like '%$searchWords%' or `detail` like '%$searchWords%') ")->order("`comcount` desc")->limit($start,$limit)->select();
+        return $this
+            ->field("id,name,detail,lessons,quality,responsible,headimg as teaimg")
+            ->where("`show` = '1' and `mediaid`='$mediaid' and (`name` like '%$searchWords%' or `lessons` like '%$searchWords%' or `detail` like '%$searchWords%') ")
+            ->order("`comcount` desc")->limit($start,$limit)->select();
     }
 
 

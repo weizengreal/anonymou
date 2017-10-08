@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2017-10-06 12:04:34
+-- Generation Time: 2017-10-09 00:00:27
 -- 服务器版本： 5.7.11-log
 -- PHP Version: 5.6.22
 
@@ -122,7 +122,8 @@ CREATE TABLE IF NOT EXISTS `anony_user` (
 -- Indexes for table `anony_comment`
 --
 ALTER TABLE `anony_comment`
-  ADD PRIMARY KEY (`cid`);
+  ADD PRIMARY KEY (`cid`),
+  ADD KEY `detail_page_comment` (`cretime`,`openid`,`tid`,`display`);
 
 --
 -- Indexes for table `anony_conf`
@@ -146,7 +147,9 @@ ALTER TABLE `anony_score`
 -- Indexes for table `anony_teacher`
 --
 ALTER TABLE `anony_teacher`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `main_page_show` (`comcount`,`mediaid`,`show`),
+  ADD KEY `admin_page_teacher` (`subtime`,`mediaid`,`show`);
 
 --
 -- Indexes for table `anony_user`
