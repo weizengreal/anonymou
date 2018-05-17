@@ -33,7 +33,7 @@ class Index extends Controller {
                 'searchData'=>url("Index/Datahandle/searchData","",false),
                 'url'=>url("Index/Index/detail","",false,true),
                 'isAuth'=> empty($accessToken) ? 2 : 1,
-                'schoolName'=>empty($mediaArr['schoolname']) ? "家里蹲大学" : $mediaArr['schoolname']
+                'schoolName'=>empty($mediaArr['schoolname']) ? "微评教" : $mediaArr['schoolname']
             ]);
         }
         else {
