@@ -29,7 +29,8 @@ class Datahandle extends Controller
 
     // add一个教师数据
     public function addTeacher() {
-        if(!empty(\app\index\service\Basic::getStatus()) && isset($_COOKIE['mediaid'])) {
+        $status = \app\index\service\Basic::getStatus();
+        if(!empty($status) && isset($_COOKIE['mediaid'])) {
             $mediaid = $_COOKIE['mediaid'];
         }
         else{
