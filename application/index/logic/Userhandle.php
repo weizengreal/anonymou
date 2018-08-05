@@ -110,7 +110,11 @@ class Userhandle {
      * */
     public function getSearchData($page,$searchWords,$mediaid) {
         $start = ($page-1)*12;
-        $res = $this->teacher->getSeaData($start,$searchWords,$mediaid);
+        if ($mediaid == 'gh_d7a0ac02f3ef') {
+            $res = $this->teacher->getSeaData_gh_d7a0ac02f3ef($start,$searchWords,$mediaid);
+        }else {
+            $res = $this->teacher->getSeaData($start,$searchWords,$mediaid);
+        }
         $result = array();
         foreach ($res as $item) {
             $item['tid']=authcode($item['id'],"ENCODE");

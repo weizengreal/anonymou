@@ -81,5 +81,21 @@ class Teacher extends Model {
             ->order("`comcount` desc")->limit($start,$limit)->select();
     }
 
+    /**
+     * york 大学定制化
+     *
+     * @param $start
+     * @param $searchWords
+     * @param $mediaid
+     * @param int $limit
+     * @return false|\PDOStatement|string|\think\Collection
+     */
+    public function getSeaData_gh_d7a0ac02f3ef($start,$searchWords,$mediaid,$limit = 12) {
+        return $this
+            ->field("id,name,detail,lessons,quality,responsible,headimg as teaimg")
+            ->where("`show` = '1' and `mediaid`='$mediaid' and `name` like '%$searchWords%' ")
+            ->limit($start,$limit)->select();
+    }
+
 
 }
