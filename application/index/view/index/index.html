@@ -159,6 +159,10 @@
             else {
                 initVar = false;
             }
+            if( window.nowPage=="search" && window.searchType == 1) {
+                // searchType == 1 表示用户在搜索的情况下输入字符并触发相关事件，此时需要清空以前的搜索结果
+                appendEle.html("");
+            }
             for (var index in data) {
                 var lessonStr = "";
                 lessons = JSON.parse(data[index].lessons);
@@ -170,11 +174,7 @@
                 }
                 data[index].teaimg = data[index].teaimg.length > 2 ? imgDomain + data[index].teaimg + '?imageView2/1/w/270/h/270' : '__TEAIMG__/'+data[index].teaimg+'.png';
                 var it = $("#teacherInfo").html()._format(data[index].tid,data[index].name,data[index].detail,data[index].quality,data[index].responsible,lessonStr,data[index].teaimg);
-//                    console.log(it);
-                if( window.nowPage=="search" && window.searchType == 1) {
-                    // searchType == 1 表示用户在搜索的情况下输入字符并触发相关事件，此时需要清空以前的搜索结果
-                    appendEle.html("");
-                }
+
                 appendEle.append(it);
             }
             if(data.length == 12) {
